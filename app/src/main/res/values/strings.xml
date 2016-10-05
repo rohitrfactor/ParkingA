@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ActA</string>
+    <string name="inButton">IN</string>
+    <string name="outButton">OUT</string>
+    <string name="resetParking">Reset</string>
+    <string name="vehicles">Parked Cars</string>
+</resources>
