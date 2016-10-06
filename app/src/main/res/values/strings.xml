@@ -4,4 +4,5 @@
     <string name="outButton">OUT</string>
     <string name="resetParking">Reset</string>
     <string name="vehicles">Parked Cars</string>
+    <string name="extmsg">Are you sure to exit the vehicle?</string>
 </resources>

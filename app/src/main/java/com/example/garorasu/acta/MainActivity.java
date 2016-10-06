@@ -1,5 +1,7 @@
 package com.example.garorasu.acta;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try{
+            System.out.println(p.length);
+        }catch (Exception e){
+            System.out.println("Initiate and reset the data");
+            initializeParkingLot();
+        }
         dashboard();
     }
 
@@ -38,11 +46,8 @@ public class MainActivity extends AppCompatActivity {
         dashboard();
     }
     public void dashboard(){
-        try{
-            loadParkingLot();
-        }catch (Exception e){
-            initializeParkingLot();
-        }
+        loadParkingLot();
+        System.out.println("Data loaded from the internal storage");
         TextView vacantSpot = (TextView)findViewById(R.id.vacantSpot);
         String vs = String.valueOf(findTotalVacantSpot());
         vacantSpot.setText(vs);

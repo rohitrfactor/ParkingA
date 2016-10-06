@@ -1,11 +1,15 @@
 package com.example.garorasu.acta;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,20 +28,47 @@ public class ListParkingSpot extends AppCompatActivity {
     int logic;
     int lid;
     int res;
+    private ArrayAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_parking_spot);
         loadParkingLot();
-
         ArrayList<String> StringArray = new ArrayList<String>();
         for(parkingLot x: p){
             StringArray.add(x.getVid());
         }
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.list_view,StringArray);
-        ListView listView = (ListView) findViewById(R.id.listView);
+        final ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            boolean flag = false;
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListParkingSpot.this);
+                builder.setMessage(R.string.extmsg)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // FIRE ZE MISSILES!
+                                flag = true;
+                                p[i].exitVehicle();
+                                System.out.println(" vehicle successfully exited");
+                                Gson gson = new GsonBuilder().create();
+                                String x1 = gson.toJson(p);
+                                System.out.println("Data loaded");
+                                mCreateAndSaveFile("rohit",x1);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        }).show();
+            }
+        });
     }
 
     public void submitCarNumber(View v){
