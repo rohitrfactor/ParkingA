@@ -43,6 +43,15 @@ public class CardsParkedCars extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards_parked_cars);
+        publishNumberPlates();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        publishNumberPlates();
+    }
+
+    public void publishNumberPlates(){
         loadParkingLot();
         ArrayList<String> StringArray = new ArrayList<String>();
         for(parkingLot x: p){
@@ -51,6 +60,7 @@ public class CardsParkedCars extends AppCompatActivity {
             }
         }
         TextView noVehicle = (TextView) findViewById(R.id.noVehicle);
+
         if(StringArray.size()==0){
             noVehicle.setVisibility(View.VISIBLE);
         }else {
@@ -69,11 +79,9 @@ public class CardsParkedCars extends AppCompatActivity {
             // specify an adapter (see also next example)
             mAdapter = new MyAdapter(StringArray);
             mRecyclerView.setAdapter(mAdapter);
-
-
         }
-
     }
+
 
     public void submitCarNumber(View v){
         EditText vehicleRegistrationNo = (EditText)findViewById(R.id.vehicleRegistrationNo);
@@ -102,17 +110,19 @@ public class CardsParkedCars extends AppCompatActivity {
             if(x.getVid()==vid){
                 p[i].exitVehicle();
                 // vehicle successfully exited.
-                System.out.println(vid+" vehicle successfully exited");
+                System.out.println(" vehicle successfully exited");
                 Gson gson = new GsonBuilder().create();
                 String x1 = gson.toJson(p);
                 System.out.println("Data loaded");
                 mCreateAndSaveFile("rohit",x1);
-                return;
+                int spot = i+1;
+                Toast.makeText(getApplicationContext(),vid+" vehice successfully exited from spot "+spot,
+                        Toast.LENGTH_SHORT).show();
+                finish();
             }
             i++;
         }
         //vehicle not found
-        System.out.println(vid+" vehicle Not found");
     }
     public void printAll(int size){
         int a=0;
@@ -246,23 +256,14 @@ public class CardsParkedCars extends AppCompatActivity {
             holder.cardVid.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    String vid = p[position].getVid();
+                    String vid = mDataset.get(position);
                     AlertDialog.Builder builder = new AlertDialog.Builder(CardsParkedCars.this);
-                    builder.setMessage("Are you sure you want to exit vehicle "+vid+" ?")
+                      builder.setMessage("Are you sure you want to exit vehicle "+vid+" ?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Exit ith vehicle
-                                    String vid = p[position].getVid();
-                                    p[position].exitVehicle();
-                                    System.out.println(" vehicle successfully exited");
-                                    Gson gson = new GsonBuilder().create();
-                                    String x1 = gson.toJson(p);
-                                    System.out.println("Data loaded");
-                                    mCreateAndSaveFile("rohit",x1);
-                                    int spot = position+1;
-                                    Toast.makeText(getApplicationContext(),vid+" vehice successfully exited from spot "+spot,
-                                            Toast.LENGTH_SHORT).show();
-                                    finish();
+                                    String vid = mDataset.get(position);
+                                    exitVehicle(vid);
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

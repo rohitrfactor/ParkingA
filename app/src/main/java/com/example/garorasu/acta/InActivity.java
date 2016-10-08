@@ -1,5 +1,6 @@
 package com.example.garorasu.acta;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,8 +40,12 @@ public class InActivity extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     Log.i(TAG,"Enter pressed");
                     String s = vehicleRegistrationNo.getText().toString();
-                    enterVehicle(s);
-                    finish();
+                    if(s.length()<4){
+                        vehicleRegistrationNo.setError("Minimum Length of vehicle number is 4 digits");
+                    }else {
+                        enterVehicle(s);
+                        finish();
+                    }
                 }
                 return false;
             }

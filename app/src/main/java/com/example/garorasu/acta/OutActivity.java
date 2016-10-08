@@ -38,8 +38,13 @@ public class OutActivity extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     Log.i(TAG,"Enter pressed");
                     String s = vehicleRegistrationNoOut.getText().toString();
-                    exitVehicle(s);
-                    finish();
+                    if(s.length()<4){
+                        vehicleRegistrationNoOut.setError("Minimum Length of vehicle number is 4 digits");
+                    }else {
+                        exitVehicle(s);
+                        finish();
+                    }
+
                 }
                 return false;
             }

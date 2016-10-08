@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_m);
         try{
+            dashboard();
             System.out.println(p.length);
         }catch (Exception e){
             System.out.println("Initiate and reset the data");
@@ -47,13 +48,18 @@ public class MainActivity extends AppCompatActivity {
     }
     public void dashboard(){
         loadParkingLot();
+        int vacSpot = findTotalVacantSpot();
+        int totSpot = totalParkingSpot();
         System.out.println("Data loaded from the internal storage");
         TextView vacantSpot = (TextView)findViewById(R.id.vacantSpot);
-        String vs = String.valueOf(findTotalVacantSpot());
+        String vs = String.valueOf(vacSpot);
         vacantSpot.setText(vs);
         TextView totalSpot = (TextView)findViewById(R.id.totalSpot);
-        String ts = String.valueOf(totalParkingSpot());
+        String ts = String.valueOf(totSpot);
         totalSpot.setText(ts);
+        TextView occupiedSpot = (TextView)findViewById(R.id.occupiedSpot);
+        String os = String.valueOf(totSpot-vacSpot);
+        occupiedSpot.setText(os);
     }
 
     public void inActivity(View v){
