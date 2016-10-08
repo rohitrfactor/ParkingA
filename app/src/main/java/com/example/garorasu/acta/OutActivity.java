@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class OutActivity extends AppCompatActivity {
     private static final String TAG = null;
@@ -25,14 +28,19 @@ public class OutActivity extends AppCompatActivity {
     int logic;
     int lid;
     int res;
-    private EditText vehicleRegistrationNoOut;
+    private AutoCompleteTextView vehicleRegistrationNoOut;
+    private ArrayList<String> StringArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_out);
+        TextView noVehicle = (TextView) findViewById(R.id.noVehicle);
+        noVehicle.setVisibility(View.INVISIBLE);
         loadParkingLot();
         System.out.println("Find total vacant spot "+findTotalVacantSpot());
-        vehicleRegistrationNoOut = (EditText)findViewById(R.id.vehicleRegistrationNoOut);
+        vehicleRegistrationNoOut = (AutoCompleteTextView) findViewById(R.id.vehicleRegistrationNoOut);
+        ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, R.layout.card_view, R.id.card_vid, StringArray);
+        vehicleRegistrationNoOut.setAdapter(adapter);
         vehicleRegistrationNoOut.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
@@ -143,6 +151,12 @@ public class OutActivity extends AppCompatActivity {
         String red = mReadJsonData("rohit");
         Gson gson = new GsonBuilder().create();
         p = gson.fromJson(red, parkingLot[].class);
+        StringArray = new ArrayList<String>();
+        for(parkingLot x: p){
+            if(x.getOcp()) {
+                StringArray.add(x.getVid());
+            }
+        }
     }
 
     public String loadJSONFromAsset() {
