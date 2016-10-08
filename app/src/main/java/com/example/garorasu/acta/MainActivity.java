@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
     public void listParkingSpotActivity(View v){
-        Intent lpS = new Intent(this,ListParkingSpot.class);
+        Intent lpS = new Intent(this,CardsParkedCars.class);
         startActivity(lpS);
     }
 

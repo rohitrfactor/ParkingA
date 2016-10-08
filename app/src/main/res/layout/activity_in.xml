@@ -8,24 +8,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.garorasu.acta.InActivity">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="IN"
-        android:id="@+id/textView" />
+
     <EditText
         android:id="@+id/vehicleRegistrationNo"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:singleLine="true"
+        android:hint="Type the id of vehicle entered"
         />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/inButton"
-        android:onClick="submitCarNumber"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/vehicleRegistrationNo"
-        android:layout_toEndOf="@+id/vehicleRegistrationNo" />
 </RelativeLayout>

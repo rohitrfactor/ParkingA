@@ -58,7 +58,8 @@ public class InActivity extends AppCompatActivity {
         if (index >= 0) {
             p[index].enterVehicle(vid);
             System.out.println(vid + " vehicle successfully parked at spot " + index);
-            Toast.makeText(this, vid + " vehicle successfully parked at spot " + index,
+            int spot = index+1;
+            Toast.makeText(this, vid + " vehicle successfully parked at spot " + spot,
                     Toast.LENGTH_SHORT).show();
             System.out.println(p[index].getVid());
             Gson gson = new GsonBuilder().create();

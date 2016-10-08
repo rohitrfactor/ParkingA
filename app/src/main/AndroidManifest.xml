@@ -15,11 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InActivity"
+        <activity
+            android:name=".InActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name=".OutActivity"
+        <activity
+            android:name=".OutActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name=".ListParkingSpot"></activity>
+        <activity android:name=".ListParkingSpot" />
+        <activity android:name=".CardsParkedCars"></activity>
     </application>
 
 </manifest>

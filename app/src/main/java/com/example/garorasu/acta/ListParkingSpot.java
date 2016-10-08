@@ -44,15 +44,14 @@ public class ListParkingSpot extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            boolean flag = false;
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                if(p[i].getOcp()){
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListParkingSpot.this);
                 builder.setMessage(R.string.extmsg)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // FIRE ZE MISSILES!
-                                flag = true;
                                 p[i].exitVehicle();
                                 System.out.println(" vehicle successfully exited");
                                 Gson gson = new GsonBuilder().create();
@@ -67,7 +66,7 @@ public class ListParkingSpot extends AppCompatActivity {
                                 // User cancelled the dialog
                             }
                         }).show();
-            }
+            }}
         });
     }
 

@@ -7,14 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.garorasu.acta.OutActivity">
-
-    <EditText
-        android:id="@+id/vehicleRegistrationNoOut"
-        android:layout_width="wrap_content"
+    tools:context="com.example.garorasu.acta.CardsParkedCars">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/noVehicle"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:singleLine="true"
-        android:hint="Type the vehicle to be exited"
+        android:layout_width="wrap_content"
+        android:text="No Vehicles Parked"
         />
 </RelativeLayout>
