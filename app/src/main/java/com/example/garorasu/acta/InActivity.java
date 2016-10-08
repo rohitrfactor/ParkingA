@@ -43,8 +43,17 @@ public class InActivity extends AppCompatActivity {
                     if(s.length()<4){
                         vehicleRegistrationNo.setError("Minimum Length of vehicle number is 4 digits");
                     }else {
-                        enterVehicle(s);
-                        finish();
+                        int result = enterVehicle(s);
+                        switch (result){
+                            case -1:
+                                vehicleRegistrationNo.setError(s+" vehicle already parked");
+                                vehicleRegistrationNo.setText("");
+                                break;
+                            case -2:
+                            case 0:
+                                finish();
+                        }
+
                     }
                 }
                 return false;
@@ -58,9 +67,17 @@ public class InActivity extends AppCompatActivity {
         finish();
     }
 
-    public void enterVehicle(String vid) {
+    public int enterVehicle(String vid) {
         int index = findVacantSpot();
         if (index >= 0) {
+            for(parkingLot x:p){
+                if(x.getVid().equals(vid)){
+                    System.out.println(vid+" vehicle is already parked.");
+                    Toast.makeText(this,vid+" vehicle is already parked.",
+                            Toast.LENGTH_SHORT).show();
+                    return -1;
+                }
+            }
             p[index].enterVehicle(vid);
             System.out.println(vid + " vehicle successfully parked at spot " + index);
             int spot = index+1;
@@ -76,7 +93,9 @@ public class InActivity extends AppCompatActivity {
             System.out.println("Parking full");
             Toast.makeText(this,"Parking full",
                     Toast.LENGTH_SHORT).show();
+            return -2;
         }
+        return 0;
     }
     public void exitVehicle(String vid){
         int i=0;
