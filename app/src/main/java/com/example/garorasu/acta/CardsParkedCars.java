@@ -56,6 +56,7 @@ public class CardsParkedCars extends AppCompatActivity {
         ArrayList<String> StringArray = new ArrayList<String>();
         for(parkingLot x: p){
             if(x.getOcp()) {
+                //String car = x.getVid().toString().substring(0,1)+x.getVid().toString().substring(2,x.getVid().length()-4)+" "+x.getVid().toString().substring(x.getVid().length()-3,x.getVid().length());
                 StringArray.add(x.getVid());
             }
         }

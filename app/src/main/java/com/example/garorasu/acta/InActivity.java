@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InActivity extends AppCompatActivity {
     private static final String TAG = null;
@@ -27,23 +31,56 @@ public class InActivity extends AppCompatActivity {
     int logic;
     int lid;
     int res;
-    private EditText vehicleRegistrationNo;
+    private EditText vidSubCode,vidACode,vehicleRegistrationNo;
+    private Spinner state_spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in);
+        setContentView(R.layout.activity_in_new);
         loadParkingLot();
+        state_spinner = (Spinner) findViewById(R.id.state_spinner);
+        loadState();
         System.out.println("Find total vacant spot "+findTotalVacantSpot());
+        vidSubCode = (EditText)findViewById(R.id.vidSubCode);
+        vidSubCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)||(actionId == EditorInfo.IME_ACTION_NEXT)) {
+                    Log.i(TAG,"Enter pressed");
+                    String vsc = vidSubCode.getText().toString();
+                    if(vsc.length()<2){
+                        vidSubCode.setError("Minimum Length is 2 digits");
+                    }else {
+                        vidACode.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+        vidACode = (EditText)findViewById(R.id.vidACode);
+        vidACode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)||(actionId == EditorInfo.IME_ACTION_NEXT)) {
+                    Log.i(TAG,"Enter pressed");
+                    vehicleRegistrationNo.requestFocus();
+                }
+                return false;
+            }
+        });
         vehicleRegistrationNo = (EditText)findViewById(R.id.vehicleRegistrationNo);
         vehicleRegistrationNo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     Log.i(TAG,"Enter pressed");
                     String s = vehicleRegistrationNo.getText().toString();
+                    String vsc = vidSubCode.getText().toString();
                     if(s.length()<4){
                         vehicleRegistrationNo.setError("Minimum Length of vehicle number is 4 digits");
-                    }else {
-                        int result = enterVehicle(s);
+                    }else if(vsc.length()<2){
+                        vidSubCode.setError("Minimum Length is 2 digits");
+                        vidSubCode.requestFocus();
+                    } else {
+                        String car = state_spinner.getSelectedItem().toString()+" "+vidSubCode.getText().toString()+vidACode.getText().toString()+" "+vehicleRegistrationNo.getText().toString();
+                        int result = enterVehicle(car);
                         switch (result){
                             case -1:
                                 vehicleRegistrationNo.setError(s+" vehicle already parked");
@@ -60,6 +97,23 @@ public class InActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void loadState(){
+        List<String> stateCodes = new ArrayList<String>();
+        stateCodes.add("HR");
+        stateCodes.add("UP");
+        stateCodes.add("RJ");
+        stateCodes.add("HP");
+        stateCodes.add("UA");
+        stateCodes.add("PB");
+        stateCodes.add("DL");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.list_view,stateCodes);
+
+        // attaching data adapter to spinner
+        state_spinner.setAdapter(dataAdapter);
+    }
+
     public void submitCarNumber(View v){
         EditText vehicleRegistrationNo = (EditText)findViewById(R.id.vehicleRegistrationNo);
         String s = vehicleRegistrationNo.getText().toString();

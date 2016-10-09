@@ -43,7 +43,7 @@ public class OutActivity extends AppCompatActivity {
         vehicleRegistrationNoOut.setAdapter(adapter);
         vehicleRegistrationNoOut.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)||(actionId == EditorInfo.IME_ACTION_NEXT)) {
                     Log.i(TAG,"Enter pressed");
                     String s = vehicleRegistrationNoOut.getText().toString();
                     if(s.length()<4){

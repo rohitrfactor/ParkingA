@@ -3,9 +3,10 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/label"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:padding="10dip"
-    android:textSize="16dip"
-    android:textStyle="bold" >
+    android:gravity="center"
+    android:textSize="@dimen/text_number_plate_size"
+    android:textColor="#000"
+    >
 </TextView>
